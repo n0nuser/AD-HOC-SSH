@@ -54,8 +54,8 @@ case $yesOrNo in
     echo " "
     ;;
   "N"|"n")
-     read -p "Write the adapter you want to use:" WIFI
-     nmcli connection show | awk '{print $4}' | tr "\n" " " | tr -d - | grep $WIFI > /dev/null 2>&1
+     read -p "Write the adapter you want to use: " WIFI
+     ip route | awk '{print $3}' | tr "\n" " " | grep $WIFI > /dev/null 2>&1
      if [ $? -ne 0 ]; then
        echo "That adapter does not exists."
        exit 1
@@ -67,13 +67,15 @@ case $yesOrNo in
     ;;
 esac
 
-sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y
+clear
+sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y > /dev/null 2>&1
+echo "Everything Updated!"
 
-sudo apt-get install dnsmasq hostapd -y
-sudo systemctl stop dnsmasq
-sudo systemctl stop hostapd
+sudo apt-get install dnsmasq hostapd -y > /dev/null 2>&1
+sudo systemctl stop dnsmasq > /dev/null 2>&1
+sudo systemctl stop hostapd > /dev/null 2>&1
+echo "Installed dnsmasq and hostapd"
 
-# Revisar la interfaz a coger
 sudo echo "
 hostname
 clientid
@@ -87,14 +89,14 @@ slaac private
 interface $WIFI
 static ip_address=192.168.1.1/24
 nohook wpa_supplicant" >> /etc/dhcpcd.conf
-sudo systemctl restart dhcpcd
+sudo systemctl restart dhcpcd > /dev/null 2>&1
+echo "DHCP started!"
 
 sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.bak
-#sudo nano /etc/dnsmasq.conf
-#Revisar interfaz
 sudo echo "interface=$WIFI
 dhcp-range=192.168.1.2,192.168.1.150,255.255.255.0,24h" > /etc/dnsmasq.conf
-sudo systemctl start dnsmasq
+sudo systemctl start dnsmasq > /dev/null 2>&1
+echo "dnsmasq started!"
 
 sudo echo "interface=$WIFI
 driver=nl80211
@@ -111,16 +113,29 @@ wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
 rsn_pairwise=CCMP" > /etc/hostapd/hostapd.conf
 sudo echo "DAEMON_CONF=\"/etc/hostapd/hostapd.conf\"" > /etc/default/hostapd
+echo "Configuration files set up!"
 
 sudo systemctl unmask hostapd
 sudo systemctl enable hostapd
 sudo systemctl start hostapd
+echo "HostAPd started!"
 
 sudo echo "net.ipv4.ip_forward=1" > /etc/sysctl.conf
-
 sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
 sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
-
 iptables-restore < /etc/iptables.ipv4.nat
+echo "Routing done!"
 
+echo "After reboot look for WiFi AP's 👽"
+echo "System is going to restart!!"
+echo "... in 5!"
+sleep 1
+echo "... in 4!"
+sleep 1
+echo "... in 3!"
+sleep 1
+echo "... in 2!"
+sleep 1
+echo "... in 1!"
+sleep 1
 sudo reboot
