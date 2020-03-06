@@ -1,6 +1,6 @@
 # Portable HostAPd
 
-## INTRODUCTION 📃
+## INTRODUCTION 💬
 
 This lets you create a WiFi Hotspot for your linux system without internet connection to access by just connecting to its WiFi AP.<br> You can get internet by bridging your adapter to another with internet.<br>
 (I have part of the code needed for this in my RogueAP repository) :neckbeard:
@@ -15,9 +15,9 @@ The final way was HostAPd, a program that let's you do exactly this.
 
 The installation of everything is a bit tedious so I just automatized it.
 
-## INSTALLATION
+## INSTALLATION 📃
 
-I made the project thinking on Raspbian because it's easier to set up (Raspi-Config) and because you can get every tool you need by just adding repositories (like the Katoolin to get Kali tools). Tested on Raspbian Buster (February 2020).
+I made the project thinking on Raspbian because it's easier to set up (Raspi-Config) and because you can get every tool you need by just adding repositories (like the Katoolin to get Kali tools). Tested on Raspbian Buster (v. February 2020).
 
 In case of going for Raspbian, install the buster lite option with console login as it need much less space and runs faster.
 
@@ -25,11 +25,11 @@ What you need:
 
 - If you just recently installed your OS:
 
-  - Configure your locales and keyboard layout
+  - Configure your locales and keyboard layout 🎹
 
-  - Configure your password and hostname
+  - Configure your password and hostname 👤
 
-- Get internet connection (just for installation)
+- Get internet connection (just for installation) 📶
 
 - Enable SSH
 
@@ -57,7 +57,7 @@ Just run:
 sudo ./setup.sh SSID PASSWORD
 ```
 
-And there you go!
+And there you go! :rage3:
 
 You're most likely won't use the screen and the keyboard again.
 
@@ -73,4 +73,4 @@ If your AP doesn't appear, it might be because:
 - Some service didn't fully installed. In this case erase all the redirections to `/dev/null` and watch where it crashes.
 - The driver of the WiFi adapter is not the usual Broadcom. In that case, search which driver does your adapter need and change it into: `/etc/hostapd/hostapd.conf`.
 
-If the AP appears but doesn't let you connect to it, it will probably the DHCP which is not assigning you an IP, so revise that dhcpcd service is using the file created/modified: `/etc/dhcpcd.conf`.
+If the AP appears but doesn't let you connect to it, it will probably be the DHCP which is not assigning you an IP, so revise that dhcpcd service is using the file created/modified: `/etc/dhcpcd.conf`.
