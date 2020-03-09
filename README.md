@@ -1,4 +1,4 @@
-# Portable HostAPd
+# Ad-Hoc SSH over HostAPd
 
 ## INTRODUCTION 💬
 
